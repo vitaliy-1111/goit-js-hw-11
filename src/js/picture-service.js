@@ -10,7 +10,7 @@ export default class PictureApiService {
   }
 
   fetchPictures() {
-    const url = `${BASE_URL}/?key=${API_KEY}&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=3&page=${this.page}`;
+    const url = `${BASE_URL}/?key=${API_KEY}&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`;
     return axios.get(url).then(({ data }) => { console.log(data); return data });
   }
 

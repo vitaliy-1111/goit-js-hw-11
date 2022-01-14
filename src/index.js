@@ -13,20 +13,13 @@ const loadMoreBtn = new LoadMoreBtn({
   selector: '[data-action="load-more"]',
   hidden: true,
 });
+let gallery = new SimpleLightbox('.gallery a');
 
 refs.searchFormEl.addEventListener('submit', onSubmitSearchForm);
 loadMoreBtn.refs.button.addEventListener('click', fetchPictures);
 
-let gallery = new SimpleLightbox('.gallery a');
-// gallery.on('show.simplelightbox', function () {
-// 	// do something…
-// });
-
-
-
 function onSubmitSearchForm(e) {
   e.preventDefault();
-
 
   console.log(e.currentTarget.elements.searchQuery.value);
   const searchQuery = e.currentTarget.elements.searchQuery.value;
@@ -36,25 +29,23 @@ function onSubmitSearchForm(e) {
   clearGalleryContainer()
   fetchPictures();
   loadMoreBtn.show();
- 
-
- 
 }
   
 function fetchPictures() {
-
+  refs.endOfResult.classList.add("is-hidden")
   loadMoreBtn.disable();
   
   return pictureApiService.fetchPictures()
     .then(response => {
       const { hits } = response;
-      const page = response.totalHits / 3;
+      const page = response.totalHits / 40;
      
       if (response.totalHits === 0) {
          loadMoreBtn.hide();
       }
-      if (pictureApiService.page === 1) {
+      if (pictureApiService.page === 1 && response.totalHits != 0) {
         Notiflix.Notify.success(`Hooray! We found ${response.totalHits} images.`);
+
       }
       
       console.log(response);
@@ -73,6 +64,7 @@ function fetchPictures() {
         console.log('no more picture');
         Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
         loadMoreBtn.hide();
+         refs.endOfResult.classList.remove("is-hidden");
         return;
       }
     })
@@ -88,19 +80,25 @@ function renderPicturesCard(countries) {
   }
 
   const markup = countries.map(country => `<div class="photo-card">
-  <a href="${country.largeImageURL}"><img src="${country.webformatURL}" alt="${country.tags}" loading="lazy" /></a>
+  <div class="image-thumb">
+  <a href="${country.largeImageURL}"><img class="photo-card__img" src="${country.webformatURL}" alt="${country.tags}" loading="lazy"  /></a>
+  </div>
   <div class="info">
     <p class="info-item">
-      <b>likes ${country.likes}</b>
+      <b>likes</b>
+      <span class="info-text">${country.likes}</span>
     </p>
     <p class="info-item">
-      <b>views ${country.views}</b>
+      <b>views </b>
+       <span class="info-text">${country.views}</span>
     </p>
     <p class="info-item">
-      <b>comments ${country.comments}</b>
+      <b>comments </b>
+      <span class="info-text">${country.comments}</span>
     </p>
     <p class="info-item">
-      <b>downloads ${country.downloads}</b>
+      <b>downloads</b>
+      <span class="info-text">${country.downloads}</span>
     </p>
   </div>
 </div>`).join("");
@@ -110,4 +108,4 @@ function renderPicturesCard(countries) {
 function clearGalleryContainer() {
   refs.gallery.innerHTML = "";
 }
-// new SimpleLightbox('.gallery a');
+
