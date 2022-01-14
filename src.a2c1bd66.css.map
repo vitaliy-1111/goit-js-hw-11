@@ -1,1 +1,0 @@
-{"version":3,"sources":["sass/styles.scss"],"names":[],"mappings":"AAAA,KACE,sBAEF,QACE,aAAA,CACA,gBAAA,CACA,kBAGF,kBACE","file":"src.a2c1bd66.css","sourceRoot":"../src","sourcesContent":["body {\n  background-color: grey;\n}\n.button {\n  display: block;\n  margin-left: auto;\n  margin-right: auto;\n}\n\n.button.is-hidden {\n  display: none;\n}\n"]}
