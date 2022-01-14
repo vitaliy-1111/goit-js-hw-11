@@ -17,6 +17,11 @@ const loadMoreBtn = new LoadMoreBtn({
 refs.searchFormEl.addEventListener('submit', onSubmitSearchForm);
 loadMoreBtn.refs.button.addEventListener('click', fetchPictures);
 
+let gallery = new SimpleLightbox('.gallery a');
+// gallery.on('show.simplelightbox', function () {
+// 	// do something…
+// });
+
 
 
 function onSubmitSearchForm(e) {
@@ -54,6 +59,7 @@ function fetchPictures() {
       
       console.log(response);
      
+     
       console.log(page)
       pictureApiService.incrementPage();
       renderPicturesCard(hits)
@@ -61,6 +67,7 @@ function fetchPictures() {
 
       
       loadMoreBtn.enable();
+       gallery.refresh();
 
       if (pictureApiService.page > page && response.totalHits != 0) {
         console.log('no more picture');
@@ -103,4 +110,4 @@ function renderPicturesCard(countries) {
 function clearGalleryContainer() {
   refs.gallery.innerHTML = "";
 }
-new SimpleLightbox('.gallery a');
+// new SimpleLightbox('.gallery a');
