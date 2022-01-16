@@ -9,9 +9,10 @@ export default class PictureApiService {
     
   }
 
-  fetchPictures() {
+  async fetchPictures() {
     const url = `${BASE_URL}/?key=${API_KEY}&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`;
-    return axios.get(url).then(({ data }) => { console.log(data); return data });
+    const response = await axios.get(url);
+    return response.data;
   }
 
   get query() {
@@ -22,7 +23,6 @@ export default class PictureApiService {
     this.searchQuery = newQuery;
   }
   
-
   incrementPage() {
     this.page += 1;
   }
